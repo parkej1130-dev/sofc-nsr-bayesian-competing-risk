@@ -1,0 +1,22 @@
+# Core scientific computing
+numpy>=1.26,<3.0
+scipy>=1.11
+pandas>=2.1
+
+# Probabilistic programming
+pymc>=5.16
+pytensor>=2.18
+arviz>=0.18
+
+# Sensitivity analysis
+SALib>=1.4
+
+# Plotting
+matplotlib>=3.8
+seaborn>=0.13
+
+# Frailty model fitting (Section 3.6)
+lifelines>=0.27
+
+# I/O
+netCDF4>=1.6
