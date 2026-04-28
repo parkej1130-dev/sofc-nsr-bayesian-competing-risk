@@ -3,10 +3,30 @@
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![PyMC](https://img.shields.io/badge/PyMC-5.28.4-blue)](https://www.pymc.io/)
 [![ArviZ](https://img.shields.io/badge/ArviZ-0.22.0-green)](https://www.arviz.org/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19849897.svg)](https://doi.org/10.5281/zenodo.19849897)
 
 This repository provides the source code and pre-computed inference results for the paper:
 
 > **EunJoo Park, Hyochan Kwon, Jinkwang Lee.** *Start–Stop Cycle-Induced Failure-Mode Transition in SOFC-Powered Northern Sea Route Shipping: A Hierarchical Bayesian Competing-Risk Analysis.* **Journal of Marine Science and Engineering**, 2026 (under review).
+
+---
+
+## ⚠️ Important: Download Large File from Zenodo
+
+The main ASR posterior file (`idata_asr_v3.nc`, 26 MB) is hosted **on Zenodo** rather than GitHub due to GitHub's web upload size limit. Before running the verification script, please download it manually:
+
+### Download Instructions
+
+1. Go to: **https://doi.org/10.5281/zenodo.19849897**
+2. Download `idata_asr_v3.nc` (26 MB)
+3. Place it in the `results/` directory of this repository:
+   ```
+   sofc-nsr-bayesian-competing-risk/
+   └── results/
+       └── idata_asr_v3.nc        ← place the downloaded file here
+   ```
+
+All other inference result files (`idata_surv_v3.nc`, `idata_asr_noise_*.nc`, `recovery_arrays_v3.npz`, `run_summary_v3.json`) are already included in this GitHub repository.
 
 ---
 
@@ -35,9 +55,9 @@ sofc-nsr-bayesian-competing-risk/
 │   └── make_figure[1-6].py         Per-figure standalone scripts
 │
 ├── results/
-│   ├── idata_asr_v3.nc             ASR model posterior (4 × 1500 draws)
+│   ├── idata_asr_v3.nc             ⚠️ DOWNLOAD FROM ZENODO (26 MB)
 │   ├── idata_surv_v3.nc            Weibull survival posterior (4 × 2000 draws)
-│   ├── idata_asr_noise_0_*_v3.nc   σ_e sensitivity studies (4 noise levels)
+│   ├── idata_asr_noise_0_*.nc      σ_e sensitivity studies (4 noise levels)
 │   ├── recovery_arrays_v3.npz      90-cell parameter recovery (true vs posterior)
 │   └── run_summary_v3.json         Execution metadata + diagnostics
 │
@@ -50,18 +70,29 @@ sofc-nsr-bayesian-competing-risk/
 
 ### Option A — Inspect cached results (fast, no MCMC)
 
-The cached inference results in `results/` allow inspection of all reported posterior summaries without re-running MCMC. Verification is fast (under 1 minute):
+The cached inference results allow inspection of all reported posterior summaries without re-running MCMC. Verification is fast (under 1 minute):
 
 ```bash
+# 1. Clone this repository
+git clone https://github.com/parkej1130-dev/sofc-nsr-bayesian-competing-risk.git
+cd sofc-nsr-bayesian-competing-risk
+
+# 2. Download idata_asr_v3.nc from Zenodo and place it in results/
+#    https://doi.org/10.5281/zenodo.19849897
+
+# 3. Install dependencies
 pip install -r requirements.txt
+
+# 4. Run verification
 python verify_results.py
 ```
 
 This script reproduces the key values reported in the paper:
 - **Table 2** (posterior summaries, R̂, ESS, MCSE)
 - **Table 3** (parameter recovery within 94% HDI)
-- **Table 6** (maintenance intervals)
 - **Section 3.6** (frailty diagnostics, σ_e sensitivity)
+
+Expected output: **18/18 checks passed**.
 
 ### Option B — Reproduce from scratch (slow, full MCMC)
 
@@ -161,9 +192,21 @@ The published results were obtained on a 4-core machine running Linux. Approxima
 
 ---
 
+## Data Availability
+
+| Resource | Location | DOI / URL |
+|---|---|---|
+| Source code | GitHub | https://github.com/parkej1130-dev/sofc-nsr-bayesian-competing-risk |
+| Main ASR posterior (`idata_asr_v3.nc`) | Zenodo | https://doi.org/10.5281/zenodo.19849897 |
+| All other inference results | GitHub `results/` | (this repository) |
+
+---
+
 ## Citation
 
-If you use this code or results in your work, please cite:
+If you use this code or data in your work, please cite **both** the paper and the Zenodo dataset:
+
+### Paper
 
 ```bibtex
 @article{park2026sofc,
@@ -175,11 +218,24 @@ If you use this code or results in your work, please cite:
 }
 ```
 
+### Dataset
+
+```bibtex
+@dataset{park2026sofc_data,
+  author    = {Park, EunJoo and Kwon, Hyochan and Lee, Jinkwang},
+  title     = {Cached PyMC inference results for SOFC-NSR hierarchical Bayesian competing-risk analysis},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.19849897},
+  url       = {https://doi.org/10.5281/zenodo.19849897}
+}
+```
+
 ---
 
 ## License
 
-This work is licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**. See [LICENSE](LICENSE) for details. You are free to share and adapt the material for any purpose, provided you give appropriate credit and indicate if changes were made.
+This work is licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**. See [LICENSE](LICENSE) for details.
 
 ---
 
